@@ -6,14 +6,14 @@ public class backgrounds {
     public static void read() {
 
         try {
-            PreparedStatement ps = Main.db.prepareStatement("SELECT backgroundID, backgroundName, backgroundPassword FROM backgrounds");
+            PreparedStatement ps = Main.db.prepareStatement("SELECT backgroundID, backgroundPrice, backgroundImage FROM backgrounds");
 
             ResultSet results = ps.executeQuery();
             while (results.next()) {
                 int backgroundID = results.getInt(1);
-                String backgroundName = results.getString(2);
-                String backgroundPassword = results.getString(3);
-                System.out.println(backgroundID + " " + backgroundName + " " + backgroundPassword);
+                String backgroundPrice = results.getString(2);
+                String backgroundImage = results.getString(3);
+                System.out.println(backgroundID + " " + backgroundPrice + " " + backgroundImage);
 
             }
         } catch (Exception exception) {
@@ -25,7 +25,7 @@ public class backgrounds {
     public static void insert() {
 
         try {
-            PreparedStatement ps = Main.db.prepareStatement("INSERT into backgrounds (backgroundName, backgroundPassword) VALUES (?,?)");
+            PreparedStatement ps = Main.db.prepareStatement("INSERT into backgrounds (backgroundPrice, backgroundImage) VALUES (?,?)");
 
             ps.setString(1, "hannah123");
             ps.setString(2, "noThankYou");
@@ -37,13 +37,13 @@ public class backgrounds {
 
     }
 
-    public static void update(String backgroundName, String backgroundPassword, int backgroundID) {
+    public static void update(String backgroundPrice, String backgroundImage, int backgroundID) {
 
         try {
-            PreparedStatement ps = Main.db.prepareStatement("UPDATE backgrounds SET backgroundName = ?, backgroundPassword = ? WHERE backgroundID = ?");
+            PreparedStatement ps = Main.db.prepareStatement("UPDATE backgrounds SET backgroundPrice = ?, backgroundImage = ? WHERE backgroundID = ?");
 
-            ps.setString(1, backgroundName);
-            ps.setString(2, backgroundPassword);
+            ps.setString(1, backgroundPrice);
+            ps.setString(2, backgroundImage);
             ps.setInt(3, backgroundID);
 
             ps.executeUpdate();

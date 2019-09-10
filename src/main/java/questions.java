@@ -6,14 +6,14 @@ public class questions {
     public static void read() {
 
         try {
-            PreparedStatement ps = Main.db.prepareStatement("SELECT questionID, questionName, questionPassword FROM questions");
+            PreparedStatement ps = Main.db.prepareStatement("SELECT questionID, question, answer FROM questions");
 
             ResultSet results = ps.executeQuery();
             while (results.next()) {
                 int questionID = results.getInt(1);
-                String questionName = results.getString(2);
-                String questionPassword = results.getString(3);
-                System.out.println(questionID + " " + questionName + " " + questionPassword);
+                String question = results.getString(2);
+                String answer = results.getString(3);
+                System.out.println(questionID + " " + question + " " + answer);
 
             }
         } catch (Exception exception) {
@@ -25,7 +25,7 @@ public class questions {
     public static void insert() {
 
         try {
-            PreparedStatement ps = Main.db.prepareStatement("INSERT into questions (questionName, questionPassword) VALUES (?,?)");
+            PreparedStatement ps = Main.db.prepareStatement("INSERT into questions (question, answer) VALUES (?,?)");
 
             ps.setString(1, "hannah123");
             ps.setString(2, "noThankYou");
@@ -37,13 +37,13 @@ public class questions {
 
     }
 
-    public static void update(String questionName, String questionPassword, int questionID) {
+    public static void update(String question, String answer, int questionID) {
 
         try {
-            PreparedStatement ps = Main.db.prepareStatement("UPDATE questions SET questionName = ?, questionPassword = ? WHERE questionID = ?");
+            PreparedStatement ps = Main.db.prepareStatement("UPDATE questions SET question = ?, answer = ? WHERE questionID = ?");
 
-            ps.setString(1, questionName);
-            ps.setString(2, questionPassword);
+            ps.setString(1, question);
+            ps.setString(2, answer);
             ps.setInt(3, questionID);
 
             ps.executeUpdate();

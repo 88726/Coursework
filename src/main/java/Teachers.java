@@ -6,14 +6,14 @@ public class Teachers {
     public static void read() {
 
         try {
-            PreparedStatement ps = Main.db.prepareStatement("SELECT teacherID, teacherName, teacherPassword FROM teachers");
+            PreparedStatement ps = Main.db.prepareStatement("SELECT teacherID, teacherTitle, teacherPassword FROM teachers");
 
             ResultSet results = ps.executeQuery();
             while (results.next()) {
                 int teacherID = results.getInt(1);
-                String teacherName = results.getString(2);
+                String teacherTitle = results.getString(2);
                 String teacherPassword = results.getString(3);
-                System.out.println(teacherID + " " + teacherName + " " + teacherPassword);
+                System.out.println(teacherID + " " + teacherTitle + " " + teacherPassword);
 
             }
         } catch (Exception exception) {
@@ -25,7 +25,7 @@ public class Teachers {
     public static void insert() {
 
         try {
-            PreparedStatement ps = Main.db.prepareStatement("INSERT into teachers (teacherName, teacherPassword) VALUES (?,?)");
+            PreparedStatement ps = Main.db.prepareStatement("INSERT into teachers (teacherTitle, teacherPassword) VALUES (?,?)");
 
             ps.setString(1, "hannah123");
             ps.setString(2, "noThankYou");
@@ -37,12 +37,12 @@ public class Teachers {
 
     }
 
-    public static void update(String teacherName, String teacherPassword, int teacherID) {
+    public static void update(String teacherTitle, String teacherPassword, int teacherID) {
 
         try {
-            PreparedStatement ps = Main.db.prepareStatement("UPDATE teachers SET teacherName = ?, teacherPassword = ? WHERE teacherID = ?");
+            PreparedStatement ps = Main.db.prepareStatement("UPDATE teachers SET teacherTitle = ?, teacherPassword = ? WHERE teacherID = ?");
 
-            ps.setString(1, teacherName);
+            ps.setString(1, teacherTitle);
             ps.setString(2, teacherPassword);
             ps.setInt(3, teacherID);
 

@@ -6,11 +6,20 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 public class Main {
+    public static void main(String[] args) {
+openDatabase("CourseworkDatabase.db");
+
+        Students.read();
+        Students.update("hannah", "Password", 1);
+        Students.read();
+        closeDatabase();
+
+    }
     //this will behave like a global variable for the following blocks
     public static Connection db = null;
 
     private static void openDatabase(String dbFile) {
-        try {
+            try {
             //loads the database driver
             Class.forName("org.sqlite.JDBC");
 

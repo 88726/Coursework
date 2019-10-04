@@ -1,10 +1,15 @@
+import javax.ws.rs.GET;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-public class backgrounds {
+public class Backgrounds {
 
-    public static void read() {
-
+    @GET
+    @Path("read")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String read() {
+System.out.println("backgrounds/read");
+JSONArray list = new JSONArray();
         try {
             PreparedStatement ps = Main.db.prepareStatement("SELECT backgroundID, backgroundPrice, backgroundImage FROM backgrounds");
 

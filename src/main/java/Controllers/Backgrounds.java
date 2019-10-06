@@ -1,4 +1,5 @@
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
@@ -8,25 +9,30 @@ public class Backgrounds {
     @Path("read")
     @Produces(MediaType.APPLICATION_JSON)
     public String read() {
-System.out.println("backgrounds/read");
-JSONArray list = new JSONArray();
+        System.out.println("backgrounds/read");
+        JSONArray read = new JSONArray();
         try {
             PreparedStatement ps = Main.db.prepareStatement("SELECT backgroundID, backgroundPrice, backgroundImage FROM backgrounds");
 
             ResultSet results = ps.executeQuery();
             while (results.next()) {
-                int backgroundID = results.getInt(1);
-                String backgroundPrice = results.getString(2);
-                String backgroundImage = results.getString(3);
-                System.out.println(backgroundID + " " + backgroundPrice + " " + backgroundImage);
+                JSONObject item = new JSONObject();
+                item.put("id", results.getInt(1));
+                item.put("backgroundPrice", results.getString(2));
+                item.put("backgroundImage",results.getString(3));
+                read.add(item);
 
             }
+            return read.toString();
         } catch (Exception exception) {
             System.out.println("Database error" + exception.getMessage());
         }
 
     }
 
+    @POST
+    @Path("new")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
     public static void insert() {
 
         try {

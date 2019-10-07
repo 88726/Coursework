@@ -1,5 +1,11 @@
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
+package Controllers;
+
+import Server.Main;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
@@ -9,6 +15,7 @@ public class Backgrounds {
     @Path("read")
     @Produces(MediaType.APPLICATION_JSON)
     public String read() {
+
         System.out.println("backgrounds/read");
         JSONArray read = new JSONArray();
         try {
@@ -19,13 +26,14 @@ public class Backgrounds {
                 JSONObject item = new JSONObject();
                 item.put("id", results.getInt(1));
                 item.put("backgroundPrice", results.getString(2));
-                item.put("backgroundImage",results.getString(3));
+                item.put("backgroundImage", results.getString(3));
                 read.add(item);
 
             }
             return read.toString();
         } catch (Exception exception) {
             System.out.println("Database error" + exception.getMessage());
+            return();
         }
 
     }

@@ -8,12 +8,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void Main(String[] args) {
 openDatabase("CourseworkDatabase.db");
 
-        Students.read();
-        Students.update("hannah", "Password", 1);
-        Students.read();
+        Controllers.Students.read();
+        Controllers.Students.update("hannah", "Password", 1);
+        Controllers.Students.read();
         closeDatabase();
 
     }
@@ -42,9 +42,9 @@ openDatabase("CourseworkDatabase.db");
         try {
             db.close();
 
-            System.out.println("Disonnected successfully");
+            System.out.println("Disconnected successfully");
         } catch (Exception exception) {
-            System.out.println("Disonnection error" + exception.getMessage());
+            System.out.println("Disconnection error" + exception.getMessage());
         }
     }
 }

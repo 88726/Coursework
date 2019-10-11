@@ -33,7 +33,7 @@ public class Backgrounds {
             return read.toString();
         } catch (Exception exception) {
             System.out.println("Database error" + exception.getMessage());
-            return();
+            return null;
         }
 
     }
@@ -44,10 +44,11 @@ public class Backgrounds {
     public static void insert() {
 
         try {
-            PreparedStatement ps = Main.db.prepareStatement("INSERT into backgrounds (backgroundPrice, backgroundImage) VALUES (?,?)");
+            PreparedStatement ps = Main.db.prepareStatement("INSERT into backgrounds (backgroundPrice, backgroundImage, backgroundID) VALUES (?,?,?)");
 
-            ps.setString(1, "hannah123");
-            ps.setString(2, "noThankYou");
+            ps.setInt(1, 2);
+            ps.setString(2, "image.jpg");
+            ps.setInt(2, 2);
 
             ps.executeUpdate();
         } catch (Exception exception) {

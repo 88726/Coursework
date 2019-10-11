@@ -8,7 +8,7 @@ public class Students {
     public static void read() {
 
         try {
-            PreparedStatement ps = Main.db.prepareStatement("SELECT studentID, studentName, studentPassword FROM students");
+            PreparedStatement ps = Server.Main.db.prepareStatement("SELECT studentID, studentName, studentPassword FROM students");
 
             ResultSet results = ps.executeQuery();
             while (results.next()) {
@@ -24,13 +24,14 @@ public class Students {
 
     }
 
-    public static void insert() {
+    public static void insert(String studentName, String studentPassword, int studentID) {
 
         try {
-            PreparedStatement ps = Main.db.prepareStatement("INSERT into students (studentName, studentPassword) VALUES (?,?)");
+            PreparedStatement ps = Server.Main.db.prepareStatement("INSERT into students (studentName, studentPassword, studentID) VALUES (?,?,?)");
 
-            ps.setString(1, "hannah123" );
-            ps.setString(2, "noThankYou");
+            ps.setString(1, studentName );
+            ps.setString(2, studentPassword);
+            ps.setInt(3, studentID);
 
             ps.executeUpdate();
         } catch (Exception exception) {
@@ -41,7 +42,7 @@ public class Students {
     public static void update(String studentName, String studentPassword, int studentID) {
 
         try {
-            PreparedStatement ps = Main.db.prepareStatement("UPDATE students SET studentName = ?, studentPassword = ? WHERE studentID = ?");
+            PreparedStatement ps = Server.Main.db.prepareStatement("UPDATE students SET studentName = ?, studentPassword = ? WHERE studentID = ?");
 
             ps.setString(1, studentName );
             ps.setString(2, studentPassword);
@@ -56,7 +57,7 @@ public class Students {
     public static void delete(int studentID) {
 
         try {
-            PreparedStatement ps = Main.db.prepareStatement("DELETE FROM students WHERE studentID = ?");
+            PreparedStatement ps = Server.Main.db.prepareStatement("DELETE FROM students WHERE studentID = ?");
 
             ps.setInt(1, studentID );
 

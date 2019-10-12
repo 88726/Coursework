@@ -29,11 +29,14 @@ public class Students {
         try {
             PreparedStatement ps = Server.Main.db.prepareStatement("INSERT into students (studentName, studentPassword, studentID) VALUES (?,?,?)");
 
+            /*The following code will enter a new entity with the attributes specified into the students table*/
             ps.setString(1, studentName );
             ps.setString(2, studentPassword);
             ps.setInt(3, studentID);
 
             ps.executeUpdate();
+
+            /*If there is an error, the following code will identify this and will display an error message rather than crashing the program*/
         } catch (Exception exception) {
             System.out.println("Database error" + exception.getMessage());
         }

@@ -62,11 +62,14 @@ public class Backgrounds {
         try {
             PreparedStatement ps = Main.db.prepareStatement("UPDATE backgrounds SET backgroundPrice = ?, backgroundImage = ? WHERE backgroundID = ?");
 
+            /*The following code will update the entity with the ID specified from the backgrounds table to have the attributes that the user asks for*/
             ps.setString(1, backgroundPrice);
             ps.setString(2, backgroundImage);
             ps.setInt(3, backgroundID);
 
             ps.executeUpdate();
+
+            /*If there is an error, the following code will identify this and will display an error message rather than crashing the program*/
         } catch (Exception exception) {
             System.out.println("Database error" + exception.getMessage());
         }

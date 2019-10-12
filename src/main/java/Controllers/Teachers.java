@@ -62,9 +62,12 @@ public class Teachers {
         try {
             PreparedStatement ps = Main.db.prepareStatement("DELETE FROM teachers WHERE teacherID = ?");
 
+            /*The following code will delete the entity with the ID specified from the teachers table*/
             ps.setInt(1, teacherID);
 
             ps.executeUpdate();
+
+            /*If there is an error, the following code will identify this and will display an error message rather than crashing the program*/
         } catch (Exception exception) {
             System.out.println("Database error" + exception.getMessage());
         }

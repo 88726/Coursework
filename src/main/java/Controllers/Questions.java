@@ -1,3 +1,5 @@
+package Controllers;
+
 import Server.Main;
 
 import java.sql.PreparedStatement;
@@ -11,6 +13,8 @@ public class Questions {
             PreparedStatement ps = Main.db.prepareStatement("SELECT questionID, question, answer FROM questions");
 
             ResultSet results = ps.executeQuery();
+
+            /*The following code will extract the question ID, the question and the answer from each row of the questions table*/
             while (results.next()) {
                 int questionID = results.getInt(1);
                 String question = results.getString(2);
@@ -18,6 +22,7 @@ public class Questions {
                 System.out.println(questionID + " " + question + " " + answer);
 
             }
+            /*If there is an error, the following code will identify this and will display an error message rather than crashing the program*/
         } catch (Exception exception) {
             System.out.println("Database error" + exception.getMessage());
         }

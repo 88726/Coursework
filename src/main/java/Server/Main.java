@@ -8,13 +8,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 public class Main {
-    public static void Main(String[] args) {
+    public static void main(String[] args) {
 openDatabase("CourseworkDatabase.db");
 
+
         Controllers.Students.read();
-        Controllers.Students.update("hannah", "Password", 1);
+       Controllers.Students.update("Hannah", "password1", 12);
         Controllers.Students.read();
-        closeDatabase();
+
+    closeDatabase();
 
     }
     //this will behave like a global variable for the following blocks

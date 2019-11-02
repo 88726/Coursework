@@ -1,7 +1,7 @@
 package Controllers;
 
 import Server.Main;
-import com.sun.jersey.multipart.FormDataParam;
+import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -10,11 +10,15 @@ import javax.ws.rs.core.MediaType;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+@Path("background/")
 public class Backgrounds {
 
+    //This turns the method into a HTTP request handler
     @GET
     @Path("read")
     @Produces(MediaType.APPLICATION_JSON)
+
+    //The method has to be public in order to allow interaction with the Jersey library
     public String read() {
 
         System.out.println("backgrounds/read");
@@ -24,6 +28,8 @@ public class Backgrounds {
 
             ResultSet results = ps.executeQuery();
             while (results.next()) {
+
+                //A JSON array is constructed with the values from the SQL query
                 JSONObject item = new JSONObject();
                 item.put("id", results.getInt(1));
                 item.put("backgroundPrice", results.getString(2));
@@ -34,17 +40,30 @@ public class Backgrounds {
             return read.toString();
         } catch (Exception exception) {
             System.out.println("Database error" + exception.getMessage());
-            return null;
+
+            //This error statement will make debugging easier
+            return "{\"error\": \"Unable to list items, please see server console for more info.\"}";
+
         }
 
     }
 
+    //This turns the method into a HTTP request handler
     @POST
-    @Path("new")
+    @Path("insert")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public static void insert() {
+    @Produces(MediaType.APPLICATION_JSON)
+
+    //The method has to be public in order to allow interaction with the Jersey library
+    public String insert(@FormDataParam("backgroundPrice") Integer backgroundPrice, @FormDataParam("backgroundImage") String backgroundImage, @FormDataParam("backgroundID") Integer backgroundID){
 
         try {
+
+            //This stops null data from being added to the database
+            if (backgroundPrice == null || backgroundImage == null || backgroundID == null) {
+                throw new Exception("One or more form data parameters are missing in the HTTP request.");
+            }
+
             PreparedStatement ps = Main.db.prepareStatement("INSERT into backgrounds (backgroundPrice, backgroundImage, backgroundID) VALUES (?,?,?)");
 
             ps.setInt(1, 2);
@@ -52,8 +71,11 @@ public class Backgrounds {
             ps.setInt(2, 2);
 
             ps.executeUpdate();
+            return "{\"status\": \"OK\"}";
         } catch (Exception exception) {
             System.out.println("Database error" + exception.getMessage());
+            //This error statement will make debugging easier
+            return "{\"error\": \"Unable to create new item, please see server console for more info.\"}";
         }
 
     }

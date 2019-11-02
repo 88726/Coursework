@@ -1,11 +1,28 @@
 package Controllers;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+@Path("student/")
 public class Students {
 
-    public static void read() {
+    //This turns the method into a HTTP request handler
+    @GET
+    @Path("read")
+    @Produces(MediaType.APPLICATION_JSON)
+
+//The method has to be public in order to allow interaction with the Jersey library
+    public String read() {
+
+        System.out.println("backgrounds/read");
+        JSONArray read = new JSONArray();
 
         try {
             PreparedStatement ps = Server.Main.db.prepareStatement("SELECT studentID, studentName, studentPassword FROM students");
@@ -17,9 +34,19 @@ public class Students {
                 String studentPassword = results.getString(3);
                 System.out.println(studentID + " " + studentName + " " + studentPassword);
 
+                //A JSON array is constructed with the values from the SQL query
+                JSONObject item = new JSONObject();
+                item.put("studentID", results.getInt(1));
+                item.put("studentName", results.getString(2));
+                item.put("studentPassword", results.getString(3));
+                read.add(item);
+
             }
+            return read.toString();
         } catch (Exception exception) {
             System.out.println("Database error" + exception.getMessage());
+            //This error statement will make debugging easier
+            return "{\"error\": \"Unable to update item, please see server console for more info.\"}";
         }
 
     }

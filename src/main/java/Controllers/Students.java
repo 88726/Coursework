@@ -15,14 +15,14 @@ public class Students {
 
     //This turns the method into a HTTP request handler
     @GET
-    @Path("read")
+    @Path("list")
     @Produces(MediaType.APPLICATION_JSON)
 
 //The method has to be public in order to allow interaction with the Jersey library
-    public String read() {
+    public String list() {
 
-        System.out.println("backgrounds/read");
-        JSONArray read = new JSONArray();
+        System.out.println("backgrounds/list");
+        JSONArray list = new JSONArray();
 
         try {
             PreparedStatement ps = Server.Main.db.prepareStatement("SELECT studentID, studentName, studentPassword FROM students");
@@ -39,10 +39,10 @@ public class Students {
                 item.put("studentID", results.getInt(1));
                 item.put("studentName", results.getString(2));
                 item.put("studentPassword", results.getString(3));
-                read.add(item);
+                list.add(item);
 
             }
-            return read.toString();
+            return list.toString();
         } catch (Exception exception) {
             System.out.println("Database error" + exception.getMessage());
             //This error statement will make debugging easier

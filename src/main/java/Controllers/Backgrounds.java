@@ -15,14 +15,14 @@ public class Backgrounds {
 
     //This turns the method into a HTTP request handler
     @GET
-    @Path("read")
+    @Path("list")
     @Produces(MediaType.APPLICATION_JSON)
 
     //The method has to be public in order to allow interaction with the Jersey library
     public String read() {
 
-        System.out.println("backgrounds/read");
-        JSONArray read = new JSONArray();
+        System.out.println("backgrounds/list");
+        JSONArray list = new JSONArray();
         try {
             PreparedStatement ps = Main.db.prepareStatement("SELECT backgroundID, backgroundPrice, backgroundImage FROM backgrounds");
 
@@ -34,10 +34,10 @@ public class Backgrounds {
                 item.put("id", results.getInt(1));
                 item.put("backgroundPrice", results.getString(2));
                 item.put("backgroundImage", results.getString(3));
-                read.add(item);
+                list.add(item);
 
             }
-            return read.toString();
+            return list.toString();
         } catch (Exception exception) {
             System.out.println("Database error" + exception.getMessage());
 
@@ -50,7 +50,7 @@ public class Backgrounds {
 
     //This turns the method into a HTTP request handler
     @POST
-    @Path("insert")
+    @Path("new")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
 
@@ -63,6 +63,8 @@ public class Backgrounds {
             if (backgroundPrice == null || backgroundImage == null || backgroundID == null) {
                 throw new Exception("One or more form data parameters are missing in the HTTP request.");
             }
+
+            System.out.println("thing/update id=" + backgroundID);
 
             PreparedStatement ps = Main.db.prepareStatement("INSERT into backgrounds (backgroundPrice, backgroundImage, backgroundID) VALUES (?,?,?)");
 

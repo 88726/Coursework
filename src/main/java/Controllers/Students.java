@@ -1,6 +1,7 @@
 package Controllers;
 
-import com.sun.jersey.multipart.FormDataParam;
+
+import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -56,7 +57,7 @@ public class Students {
     @Consumes(MediaType.MULTIPART_FORM_DATA)
 
 //The method has to be public in order to allow interaction with the Jersey library
-    public String insert(@FormDataParam("studentName") String studentName,@FormDataParam("studentPassword") String studentPassword, @FormDataParam("studentID") Integer studentID) {
+    public String insert(@FormDataParam("studentName") String studentName, @FormDataParam("studentPassword") String studentPassword, @FormDataParam("studentID") Integer studentID) {
 
         try {
             //This stops null data from being added to the database

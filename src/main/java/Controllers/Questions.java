@@ -10,12 +10,13 @@ import javax.ws.rs.core.MediaType;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+@Path("question/")
 public class Questions {
 
 
 //This turns the method into a HTTP request handler
     @GET
-    @Path("read")
+    @Path("list")
     @Produces(MediaType.APPLICATION_JSON)
 
 //The method has to be public in order to allow interaction with the Jersey library
@@ -76,9 +77,22 @@ public class Questions {
 
     }
 
-    public static void update(String question, String answer, int questionID) {
+    //This turns the method into a HTTP request handler
+    @POST
+    @Path("update")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces(MediaType.APPLICATION_JSON)
+
+//The method has to be public in order to allow interaction with the Jersey library
+    public String update(@FormDataParam("question") String question, @FormDataParam("answer")  String answer, @FormDataParam("questionID") Integer questionID) {
 
         try {
+            //This stops null data from being added to the database
+            if (questionID == null || question == null || answer == null) {
+                throw new Exception("One or more form data parameters are missing in the HTTP request.");
+            }
+
+            System.out.println("thing/update id=" + questionID);
             PreparedStatement ps = Main.db.prepareStatement("UPDATE questions SET question = ?, answer = ? WHERE questionID = ?");
 
             ps.setString(1, question);
@@ -86,22 +100,46 @@ public class Questions {
             ps.setInt(3, questionID);
 
             ps.executeUpdate();
+            ps.executeUpdate();
+            return "{\"status\": \"OK\"}";
+
+            /*If there is an error, the following code will identify this and will display an error message rather than crashing the program*/
         } catch (Exception exception) {
             System.out.println("Database error" + exception.getMessage());
+            //This error statement will make debugging easier
+            return "{\"error\": \"Unable to update item, please see server console for more info.\"}";
         }
 
     }
 
-    public static void delete(int questionID) {
+    //This turns the method into a HTTP request handler
+    @POST
+    @Path("delete")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces(MediaType.APPLICATION_JSON)
+
+//The method has to be public in order to allow interaction with the Jersey library
+
+    public String delete(@FormDataParam("questionID") Integer questionID) {
 
         try {
+            //This stops null data from being a delete request
+            if (questionID == null) {
+                throw new Exception("One or more form data parameters are missing in the HTTP request.");
+            }
+            System.out.println("thing/delete id=" + questionID);
+
             PreparedStatement ps = Main.db.prepareStatement("DELETE FROM questions WHERE questionID = ?");
 
             ps.setInt(1, questionID);
 
             ps.executeUpdate();
+            return "{\"status\": \"OK\"}";
+
         } catch (Exception exception) {
             System.out.println("Database error" + exception.getMessage());
+            //This error statement will make debugging easier
+            return "{\"error\": \"Unable to delete item, please see server console for more info.\"}";
         }
 
     }

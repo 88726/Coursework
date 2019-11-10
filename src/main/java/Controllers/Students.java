@@ -21,7 +21,7 @@ public class Students {
 //The method has to be public in order to allow interaction with the Jersey library
     public String list() {
 
-        System.out.println("backgrounds/list");
+        System.out.println("student/list");
         JSONArray list = new JSONArray();
 
         try {
@@ -53,7 +53,7 @@ public class Students {
 
     //This turns the method into a HTTP request handler
     @POST
-    @Path("new")
+    @Path("add")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
 
 //The method has to be public in order to allow interaction with the Jersey library

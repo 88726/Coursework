@@ -19,9 +19,9 @@ public class Backgrounds {
     @Produces(MediaType.APPLICATION_JSON)
 
     //The method has to be public in order to allow interaction with the Jersey library
-    public String read() {
+    public String list() {
 
-        System.out.println("backgrounds/list");
+        System.out.println("background/list");
         JSONArray list = new JSONArray();
         try {
             PreparedStatement ps = Main.db.prepareStatement("SELECT backgroundID, backgroundPrice, backgroundImage FROM backgrounds");
@@ -50,7 +50,7 @@ public class Backgrounds {
 
     //This turns the method into a HTTP request handler
     @POST
-    @Path("new")
+    @Path("add")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
 
@@ -68,9 +68,10 @@ public class Backgrounds {
 
             PreparedStatement ps = Main.db.prepareStatement("INSERT into backgrounds (backgroundPrice, backgroundImage, backgroundID) VALUES (?,?,?)");
 
-            ps.setInt(1, 2);
-            ps.setString(2, "image.jpg");
-            ps.setInt(2, 2);
+
+            ps.setInt(1, backgroundPrice);
+            ps.setString(2, backgroundImage);
+            ps.setInt(3, backgroundID);
 
             ps.executeUpdate();
             return "{\"status\": \"OK\"}";

@@ -2,11 +2,10 @@ package Controllers;
 
 import Server.Main;
 import org.glassfish.jersey.media.multipart.FormDataParam;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,28 +13,43 @@ import java.sql.ResultSet;
 @Path("teacher/")
 public class Teachers {
 
-    public static void read() {
+    //This turns the method into a HTTP request handler
+    @GET
+    @Path("list")
+    @Produces(MediaType.APPLICATION_JSON)
+
+//The method has to be public in order to allow interaction with the Jersey library
+    public String list() {
+
+        System.out.println("teacher/list");
+        JSONArray list = new JSONArray();
 
         try {
             PreparedStatement ps = Main.db.prepareStatement("SELECT teacherID, teacherTitle, teacherPassword FROM teachers");
 
             ResultSet results = ps.executeQuery();
             while (results.next()) {
-                int teacherID = results.getInt(1);
-                String teacherTitle = results.getString(2);
-                String teacherPassword = results.getString(3);
-                System.out.println(teacherID + " " + teacherTitle + " " + teacherPassword);
+                //A JSON array is constructed with the values from the SQL query
+                JSONObject item = new JSONObject();
+                item.put("teacherID", results.getInt(1));
+                item.put("teacherTitle", results.getString(2));
+                item.put("teacherPassword", results.getString(3));
+                list.add(item);
 
             }
+            return list.toString();
+
         } catch (Exception exception) {
             System.out.println("Database error" + exception.getMessage());
+            //This error statement will make debugging easier
+            return "{\"error\": \"Unable to update item, please see server console for more info.\"}";
         }
 
     }
 
     //This turns the method into a HTTP request handler
     @POST
-    @Path("new")
+    @Path("add")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
 
 //The method has to be public in order to allow interaction with the Jersey library

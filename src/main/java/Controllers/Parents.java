@@ -16,14 +16,14 @@ public class Parents {
 
     //This turns the method into a HTTP request handler
     @GET
-    @Path("read")
+    @Path("list")
     @Produces(MediaType.APPLICATION_JSON)
 
 //The method has to be public in order to allow interaction with the Jersey library
-    public String read() {
+    public String list() {
 
-        System.out.println("backgrounds/read");
-        JSONArray read = new JSONArray();
+        System.out.println("parent/list");
+        JSONArray list = new JSONArray();
         try {
             PreparedStatement ps = Main.db.prepareStatement("SELECT parentID, parentName, parentPassword FROM parents");
 
@@ -35,9 +35,9 @@ public class Parents {
                 item.put( "parentName", results.getString(2));
                 item.put("parentPassword", results.getString(3));
 
-                read.add(item);
+                list.add(item);
             }
-            return read.toString();
+            return list.toString();
         } catch (Exception exception) {
             System.out.println("Database error" + exception.getMessage());
             //This error statement will make debugging easier
@@ -49,7 +49,7 @@ public class Parents {
 
     //This turns the method into a HTTP request handler
     @POST
-    @Path("new")
+    @Path("add")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
 
 //The method has to be public in order to allow interaction with the Jersey library
@@ -121,7 +121,7 @@ public class Parents {
     @Produces(MediaType.APPLICATION_JSON)
 
 //The method has to be public in order to allow interaction with the Jersey library
-    public String delete(Integer parentID) {
+    public String delete(@FormDataParam("parentID") Integer parentID) {
 
         try {
             //This stops null data from being a delete request

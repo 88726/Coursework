@@ -22,7 +22,7 @@ public class Questions {
 //The method has to be public in order to allow interaction with the Jersey library
     public String read() {
 
-            System.out.println("backgrounds/read");
+            System.out.println("question/list");
             JSONArray read = new JSONArray();
             try {
                 PreparedStatement ps = Main.db.prepareStatement("SELECT questionID, question, answer FROM questions");
@@ -52,18 +52,19 @@ public class Questions {
 
     //This turns the method into a HTTP request handler
     @POST
-    @Path("new")
+    @Path("add")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
 
 //The method has to be public in order to allow interaction with the Jersey library
-    public String insert(@FormDataParam("questionID") Integer questionID, @FormDataParam("question") String question, @FormDataParam("answer") String answer) {
+    public String insert(@FormDataParam("questionID") Integer questionID, @FormDataParam("question") String question, @FormDataParam("answer") String answer,  @FormDataParam("teacherID") String teacherID) {
 
         try {
-            PreparedStatement ps = Main.db.prepareStatement("INSERT into questions (questionID, question, answer) VALUES (?, ? ,?)");
+            PreparedStatement ps = Main.db.prepareStatement("INSERT into questions (questionID, question, answer, teacherID) VALUES (?, ? ,?, ?)");
 
             ps.setInt(1, questionID);
-            ps.setString(1, question );
-            ps.setString(2, answer);
+            ps.setString(2, question );
+            ps.setString(3, answer);
+            ps.setString(4, teacherID);
 
             ps.executeUpdate();
             return "{\"status\": \"OK\"}";

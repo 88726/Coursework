@@ -53,20 +53,21 @@ public class Teachers {
     @Consumes(MediaType.MULTIPART_FORM_DATA)
 
 //The method has to be public in order to allow interaction with the Jersey library
-    public String insert(@FormDataParam("teacherID") Integer teacherID, @FormDataParam("teacherTitle") String teacherTitle, @FormDataParam("teacherPassword") String teacherPassword) {
+    public String insert(@FormDataParam("teacherID") Integer teacherID, @FormDataParam("teacherTitle") String teacherTitle, @FormDataParam("teacherPassword") String teacherPassword, @FormDataParam("teacherSurname") String teacherSurname) {
 
         try {
 
 //This stops null data from being added to the database
-            if (teacherID == null || teacherTitle == null || teacherPassword == null) {
+            if (teacherID == null || teacherTitle == null || teacherPassword == null || teacherSurname == null) {
                 throw new Exception("One or more form data parameters are missing in the HTTP request.");
             }
 
-            PreparedStatement ps = Main.db.prepareStatement("INSERT into teachers (teacherID, teacherTitle, teacherPassword) VALUES (?, ?,?)");
+            PreparedStatement ps = Main.db.prepareStatement("INSERT into teachers (teacherID, teacherTitle, teacherPassword, teacherSurname) VALUES (?, ?, ?, ?)");
 
             ps.setInt(1, teacherID);
             ps.setString(2, teacherTitle);
             ps.setString(3, teacherPassword);
+            ps.setString(4, teacherSurname);
 
             ps.executeUpdate();
             return "{\"status\": \"OK\"}";
@@ -86,22 +87,23 @@ public class Teachers {
     @Produces(MediaType.APPLICATION_JSON)
 
 //The method has to be public in order to allow interaction with the Jersey library
-    public String update(@FormDataParam("teacherTitle") String teacherTitle, @FormDataParam("teacherPassword") String teacherPassword, @FormDataParam("teacherID") Integer teacherID) {
+    public String update(@FormDataParam("teacherTitle") String teacherTitle, @FormDataParam("teacherPassword") String teacherPassword, @FormDataParam("teacherID") Integer teacherID, @FormDataParam("teacherSurname") String teacherSurname) {
 
         try {
             //This stops null data from being added to the database
-            if (teacherTitle == null || teacherPassword == null || teacherID == null) {
+            if (teacherTitle == null || teacherPassword == null || teacherID == null || teacherSurname == null) {
                 throw new Exception("One or more form data parameters are missing in the HTTP request.");
             }
 
             System.out.println("thing/update id=" + teacherID);
 
-            PreparedStatement ps = Main.db.prepareStatement("UPDATE teachers SET teacherTitle = ?, teacherPassword = ? WHERE teacherID = ?");
+            PreparedStatement ps = Main.db.prepareStatement("UPDATE teachers SET teacherTitle = ?, teacherPassword = ?, teacherSurname = ? WHERE teacherID = ? ");
 
             /*The following code will update the entity with the ID specified from the backgrounds table to have the attributes that the user asks for*/
             ps.setString(1, teacherTitle);
             ps.setString(2, teacherPassword);
             ps.setInt(3, teacherID);
+            ps.setString(3, teacherSurname);
 
             ps.executeUpdate();
             return "{\"status\": \"OK\"}";

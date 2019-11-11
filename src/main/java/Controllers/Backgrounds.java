@@ -90,7 +90,7 @@ public class Backgrounds {
     public String update(@FormDataParam("backgroundPrice") String backgroundPrice, @FormDataParam("backgroundImage") String backgroundImage, @FormDataParam("backgroundID") Integer  backgroundID) {
 
         try {
-            if (backgroundPrice == null || backgroundImage == null || backgroundImage == null) {
+            if (backgroundPrice == null || backgroundImage == null || backgroundID == null) {
                 throw new Exception("One or more form data parameters are missing in the HTTP request.");
             }
 

@@ -4,46 +4,49 @@
     <meta charset="UTF-8">
     <title>revision site</title>
     <script src="/client/js/index.js"></script>
+
+    <style>
+        .button{
+            border: none;
+            color: white;
+            padding: 60px;
+            text-align: center;
+            font-size: 20px;
+            border-radius: 50%;
+        }
+        .button1 {
+            background-color: #f6b7f7;
+        }
+        .button2{
+            background-color: #c4d7fa
+        }
+        .button3{
+            background-color: #b4f7fa
+        }
+        .button4{
+            background-color: #a4d7aa
+        }
+    </style>
 </head>
 <body onload="pageLoad()">
+<div>
+    <h1>Revise time</h1>
+    <h3>rEvISe tImE</h3>
+
+</div>
+<div>
+
+    <button class="button button1">button</button>
+    <button class="button button2">button</button>
+    <button class="button button3">button</button>
+    <button class="button button4">button</button>
+</div>
+
 
 <div id="content">
+    <div id="listDiv"> <p></p> </div>
 
-    <div id="pageHeader">
-        <div class="floatRight"><button id="newButton" class="editButton">Add Teacher</button></div>
     </div>
 
-    <div id="listDiv"></div>
-
-    <div id="editDiv">
-        <h2 id="editHeading"></h2>
-        <form id="teacherForm">
-
-            <div>
-                <label for="teacherId" class="label">Id:</label>
-                <input type="text" name="Id" id="teacherID">
-            </div>
-            <div>
-                <label for="teacherTitle" class="label">Title:</label>
-                <input type="text" name="Title" id="teacherTitle">
-            </div>
-            <div>
-                <label for="teacherSurname" class="label">Surname:</label>
-                <input type="text" name="Surname" id="teacherSurname">
-            </div>
-            <div>
-                <label for="teacherPassword" class="label">Password:</label>
-                <input type="text" name="Password" id="teacherPassword">
-            </div>
-            <div>
-                <input type="submit" value="Save" id="saveButton">
-                <input type="submit" value="Cancel" id="cancelButton">
-            </div>
-
-        </form>
-    </div>
 </div>
 </body>
-
-
-</html>

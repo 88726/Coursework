@@ -133,7 +133,7 @@ public class Teachers {
             if (teacherID == null) {
                 throw new Exception("One or more form data parameters are missing in the HTTP request.");
             }
-            System.out.println("thing/delete id=" + teacherID);
+            System.out.println("teachers/delete id=" + teacherID);
 
             PreparedStatement ps = Main.db.prepareStatement("DELETE FROM teachers WHERE teacherID = ?");
 

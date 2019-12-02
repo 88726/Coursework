@@ -167,3 +167,54 @@ function deleteTeacher(event) {
     }
 }
 
+/*
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>revision site</title>
+    <script src="/client/js/index.js"></script>
+</head>
+<body onload="pageLoad()">
+
+<div id="content">
+
+    <div id="pageHeader">
+        <div class="floatRight"><button id="newButton" class="editButton">Add Teacher</button></div>
+    </div>
+
+    <div id="listDiv"></div>
+
+    <div id="editDiv">
+        <h2 id="editHeading"></h2>
+        <form id="teacherForm">
+
+            <div>
+                <label for="teacherId" class="label">Id:</label>
+                <input type="text" name="Id" id="teacherID">
+            </div>
+            <div>
+                <label for="teacherTitle" class="label">Title:</label>
+                <input type="text" name="Title" id="teacherTitle">
+            </div>
+            <div>
+                <label for="teacherSurname" class="label">Surname:</label>
+                <input type="text" name="Surname" id="teacherSurname">
+            </div>
+            <div>
+                <label for="teacherPassword" class="label">Password:</label>
+                <input type="text" name="Password" id="teacherPassword">
+            </div>
+            <div>
+                <input type="submit" value="Save" id="saveButton">
+                <input type="submit" value="Cancel" id="cancelButton">
+            </div>
+
+        </form>
+    </div>
+</div>
+</body>
+
+
+</html>
+ */

@@ -103,7 +103,7 @@ public class Teachers {
             ps.setString(1, teacherTitle);
             ps.setString(2, teacherPassword);
             ps.setInt(3, teacherID);
-            ps.setString(3, teacherSurname);
+            ps.setString(4, teacherSurname);
 
             ps.executeUpdate();
             return "{\"status\": \"OK\"}";

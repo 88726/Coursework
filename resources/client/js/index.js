@@ -10,26 +10,29 @@ alert("function")
         '<th class="last">Options</th>' +
         '</tr>';
 
-    fetch('/teachers/list', {method: 'get'}
+    fetch('/teacher/list', {method: 'get'}
     ).then(response => response.json()
     ).then(teachers => {
         for (let teacher of teachers) {
 
             teachersHTML += `<tr>` +
-                `<td>${teacher.Id}</td>` +
-                `<td>${teacher.Title}</td>` +
-                `<td>${teacher.Surname}</td>` +
-                `<td>${teacher.Password}</td>` +
+                `<td>${teacher.teacherID}</td>` +
+                `<td>${teacher.teacherTitle}</td>` +
+                `<td>${teacher.teacherSurname}</td>` +
+                `<td>${teacher.teacherPassword}</td>` +
                 `<td class="last">` +
-                `<button class='editButton' data-id='${teacher.Id}'>Edit</button>` +
-                `<button class='deleteButton' data-id='${teacher.Id}'>Delete</button>` +
+                `<button class='editButton' data-id='${teacher.teacherID}'>Edit</button>` +
+                `<button class='deleteButton' data-id='${teacher.teacherID}'>Delete</button>` +
                 `</td>` +
                 `</tr>`;
 
+            //***********
+            //    alert(`<td>${teacher.teacherID}</td>`)
+            //***********
         }
 
     })
-    teachersHTML += '</table>';
+teachersHTML += '</table>';
 
     document.getElementById("listDiv").innerHTML = teachersHTML;
 

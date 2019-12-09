@@ -25,7 +25,7 @@ public class Teachers {
         JSONArray list = new JSONArray();
 
         try {
-            PreparedStatement ps = Main.db.prepareStatement("SELECT teacherID, teacherTitle, teacherPassword FROM teachers");
+            PreparedStatement ps = Main.db.prepareStatement("SELECT teacherID, teacherTitle, teacherPassword, teacherSurnameInitial FROM teachers");
 
             ResultSet results = ps.executeQuery();
             while (results.next()) {
@@ -34,6 +34,7 @@ public class Teachers {
                 item.put("teacherID", results.getInt(1));
                 item.put("teacherTitle", results.getString(2));
                 item.put("teacherPassword", results.getString(3));
+                item.put("teacherSurnameInitial", results.getString(4));
                 list.add(item);
 
             }

@@ -1,24 +1,24 @@
 
 function pageLoad() {
-alert("function")
-    let teachersHTML = '<table>' +
-        '<tr>' +
-        '<th>Id</th>' +
-        '<th>Title</th>' +
-        '<th>Surname</th>' +
-        '<th>Password</th>' +
-        '<th class="last">Options</th>' +
-        '</tr>';
+
+    let teachersHTML = `<table style="width:100%"> ` +
+        `<tr>` +
+        `<th>Id</th>` +
+        `<th>Title</th>` +
+        `<th>Surname</th>` +
+        `<th>Password</th>` +
+        `<th class="last">Options</th>` +
+        `</tr>`;
 
     fetch('/teacher/list', {method: 'get'}
     ).then(response => response.json()
     ).then(teachers => {
-        for (let teacher of teachers) {
 
+        for (let teacher of teachers) {
             teachersHTML += `<tr>` +
                 `<td>${teacher.teacherID}</td>` +
                 `<td>${teacher.teacherTitle}</td>` +
-                `<td>${teacher.teacherSurname}</td>` +
+                `<td>${teacher.teacherSurnameInitial}</td>` +
                 `<td>${teacher.teacherPassword}</td>` +
                 `<td class="last">` +
                 `<button class='editButton' data-id='${teacher.teacherID}'>Edit</button>` +
@@ -26,15 +26,16 @@ alert("function")
                 `</td>` +
                 `</tr>`;
 
-            //***********
-            //    alert(`<td>${teacher.teacherID}</td>`)
-            //***********
+
         }
+        teachersHTML += `</table>`;
 
-    })
-teachersHTML += '</table>';
+        //alert(teachersHTML);
+        document.getElementById("listDiv").innerHTML = teachersHTML;
 
-    document.getElementById("listDiv").innerHTML = teachersHTML;
+    });
+
+
 
     let editButtons = document.getElementsByClassName("editButton");
     for (let button of editButtons) {

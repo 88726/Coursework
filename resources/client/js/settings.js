@@ -33,28 +33,34 @@ function pageLoad() {
         //alert(teachersHTML);
         document.getElementById("listDiv").innerHTML = teachersHTML;
 
+
+
+        let editButtons = document.getElementsByClassName("editButton");
+        for (let button of editButtons) {
+            button.addEventListener("click", editTeacher);
+
+        }
+
+        let deleteButtons = document.getElementsByClassName("deleteButton");
+        for (let button of deleteButtons) {
+            button.addEventListener("click", deleteTeacher);
+        }
     });
 
 
 
-    let editButtons = document.getElementsByClassName("editButton");
-    for (let button of editButtons) {
-        button.addEventListener("click", editTeacher);
-    }
-
-    let deleteButtons = document.getElementsByClassName("deleteButton");
-    for (let button of deleteButtons) {
-        button.addEventListener("click", deleteTeacher);
-    }
 
 
-    document.getElementById("saveButton").addEventListener("click", saveEditTeacher);
-    document.getElementById("cancelButton").addEventListener("click", cancelEditTeacher)
+
+
+
+  //  document.getElementById("saveButton").addEventListener("click", saveEditTeacher);
+   // document.getElementById("cancelButton").addEventListener("click", cancelEditTeacher)
 }
 
 
 function editTeacher(event) {
-
+alert("hi")
     const id = event.target.getAttribute("data-id");
 
     if (id === null) {
@@ -70,7 +76,7 @@ function editTeacher(event) {
         document.getElementById("editDiv").style.display = 'block';
 
     } else {
-        fetch('/teacher/get/' + id, {method: 'get'}
+        fetch('/teacher/list/' + id, {method: 'get'}
         ).then(response => response.json()
         ).then(teacher => {
 
@@ -177,7 +183,7 @@ function deleteTeacher(event) {
 <head>
     <meta charset="UTF-8">
     <title>revision site</title>
-    <script src="/client/js/index.js"></script>
+    <script src="/client/js/settings.js"></script>
 </head>
 <body onload="pageLoad()">
 

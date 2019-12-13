@@ -17,6 +17,7 @@ public class Teachers {
     @GET
     @Path("list")
     @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
 
 //The method has to be public in order to allow interaction with the Jersey library
     public String list() {

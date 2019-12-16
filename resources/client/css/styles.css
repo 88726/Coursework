@@ -1,21 +1,46 @@
 
+#header {
+    background-color: cornflowerblue;
+    width: 2000px;
+    margin: 0 auto;
+
+    padding: 35px;
+}
+
+
 .button{
     border: none;
     color: white;
-    padding: 60px;
+    padding: 120px;
     text-align: center;
-    font-size: 20px;
-    border-radius: 50%;
+    font-size: 25px;
+    border-radius: 60%;
 }
 .button1 {
     background-color: #f6b7f7;
+    position:absolute; right:500px; top:40px;
 }
 .button2{
-    background-color: #c4d7fa
+    background-color: #99fa5f;
+    position:absolute; right:500px; top:70px;
 }
 .button3{
-    background-color: #b4f7fa
+    background-color: #b4f7fa;
+    position:absolute; right:50px; top:100px;
 }
 .button4{
-    background-color: #a4d7aa
+    background-color: #a4d7aa;
+    position:absolute; right:50px; top:130px;
 }
+
+#logIn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+#logOut {
+    position: absolute;
+    top: 10px;
+    right: 80px;
+}
+

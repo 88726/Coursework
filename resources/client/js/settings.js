@@ -14,13 +14,14 @@ function pageLoad() {
     ).then(response => response.json()
     ).then(teachers => {
 
+        /// *** show the user's info at top separately
         for (let teacher of teachers) {
             teachersHTML += `<tr>` +
-                `<td>${teacher.teacherID}</td>` +
-                `<td>${teacher.teacherTitle}</td>` +
-                `<td>${teacher.teacherSurnameInitial}</td>` +
-                `<td>${teacher.teacherPassword}</td>` +
-                `<td class="last">` +
+                `<td align = "center">${teacher.teacherID}</td>` +
+                `<td align = "center">${teacher.teacherTitle}</td>` +
+                `<td align = "center">${teacher.teacherSurnameInitial}</td>` +
+                `<td align = "center">${teacher.teacherPassword}</td>` +
+                `<td align = "center" class="last">` +
                 `<button class='editButton' data-id='${teacher.teacherID}'>Edit</button>` +
                 `<button class='deleteButton' data-id='${teacher.teacherID}'>Delete</button>` +
                 `</td>` +
@@ -30,7 +31,7 @@ function pageLoad() {
         }
         teachersHTML += `</table>`;
 
-        //alert(teachersHTML);
+
         document.getElementById("listDiv").innerHTML = teachersHTML;
 
 
@@ -61,13 +62,13 @@ function pageLoad() {
 
 function editTeacher(event) {
 alert("hi")
-    const id = event.target.getAttribute("data-id");
+    const id = event.target.getAttribute("teacher.teacherID");
 
     if (id === null) {
-
+        alert("hi3")
         document.getElementById("editHeading").innerHTML = 'Add new Teacher:';
 
-        document.getElementById("teacherId").value = '';
+        document.getElementById("teacherID").value = '';
         document.getElementById("teacherTitle").value = '';
         document.getElementById("teacherSurname").value = '';
         document.getElementById("teacherPassword").value = '';
@@ -79,14 +80,14 @@ alert("hi")
         fetch('/teacher/list/' + id, {method: 'get'}
         ).then(response => response.json()
         ).then(teacher => {
-
+alert("hi2")
             if (teacher.hasOwnProperty('error')) {
                 alert(teacher.error);
             } else {
 
                 document.getElementById("editHeading").innerHTML = 'Editing ' + teacher.name + ':';
 
-                document.getElementById("teacherId").value = teacher.Id;
+                document.getElementById("teacherID").value = teacher.id;
                 document.getElementById("teacherTitle").value = teacher.Title;
                 document.getElementById("teacherSurname").value = teacher.Surname;
                 document.getElementById("teacherPassword").value = teacher.Password;

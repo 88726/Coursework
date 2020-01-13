@@ -56,7 +56,10 @@ public class Questions {
     @Consumes(MediaType.MULTIPART_FORM_DATA)
 
 //The method has to be public in order to allow interaction with the Jersey library
-    public String insert(@FormDataParam("questionID") Integer questionID, @FormDataParam("question") String question, @FormDataParam("answer") String answer,  @FormDataParam("teacherID") String teacherID) {
+    public String insert(@CookieParam("token") String token, @FormDataParam("questionID") Integer questionID, @FormDataParam("question") String question, @FormDataParam("answer") String answer,  @FormDataParam("teacherID") String teacherID) {
+        if (!studentControl.validToken(token)) {
+            return "{\"error\": \"You don't appear to be logged in.\"}";
+        }
 
         try {
             PreparedStatement ps = Main.db.prepareStatement("INSERT into questions (questionID, question, answer, teacherID) VALUES (?, ? ,?, ?)");
@@ -85,7 +88,10 @@ public class Questions {
     @Produces(MediaType.APPLICATION_JSON)
 
 //The method has to be public in order to allow interaction with the Jersey library
-    public String update(@FormDataParam("question") String question, @FormDataParam("answer")  String answer, @FormDataParam("questionID") Integer questionID) {
+    public String update(@CookieParam("token") String token, @FormDataParam("question") String question, @FormDataParam("answer")  String answer, @FormDataParam("questionID") Integer questionID) {
+        if (!studentControl.validToken(token)) {
+            return "{\"error\": \"You don't appear to be logged in.\"}";
+        }
 
         try {
             //This stops null data from being added to the database
@@ -121,7 +127,10 @@ public class Questions {
 
 //The method has to be public in order to allow interaction with the Jersey library
 
-    public String delete(@FormDataParam("questionID") Integer questionID) {
+    public String delete(@CookieParam("token") String token, @FormDataParam("questionID") Integer questionID) {
+        if (!studentControl.validToken(token)) {
+            return "{\"error\": \"You don't appear to be logged in.\"}";
+        }
 
         try {
             //This stops null data from being a delete request
@@ -141,6 +150,42 @@ public class Questions {
             System.out.println("Database error" + exception.getMessage());
             //This error statement will make debugging easier
             return "{\"error\": \"Unable to delete item, please see server console for more info.\"}";
+        }
+
+    }
+
+    //This turns the method into a HTTP request handler
+    @GET
+    @Path("get/{questionID}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+
+//The method has to be public in order to allow interaction with the Jersey library
+    public String get(@PathParam("questionID") Integer questionID) {
+
+        System.out.println("question/get/" + questionID);
+        JSONObject item = new JSONObject();
+
+        try {
+            PreparedStatement ps = Main.db.prepareStatement("SELECT question, answer FROM questions WHERE questionID = ?");
+            ps.setInt(1, questionID);
+            ResultSet results = ps.executeQuery();
+
+            if (results.next()) {
+                // item.put("id", token);
+                item.put("question", results.getString(1));
+                item.put("answer", results.getString(2));
+
+            }
+            return item.toString();
+
+
+
+
+        } catch (Exception exception) {
+            System.out.println("Database error" + exception.getMessage());
+            //This error statement will make debugging easier
+            return "{\"error\": \"Unable to update item, please see server console for more info.\"}";
         }
 
     }

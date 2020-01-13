@@ -26,7 +26,7 @@ public class Teachers {
         JSONArray list = new JSONArray();
 
         try {
-            PreparedStatement ps = Main.db.prepareStatement("SELECT teacherID, teacherTitle, teacherPassword, teacherSurnameInitial FROM teachers");
+            PreparedStatement ps = Main.db.prepareStatement("SELECT teacherID, teacherTitle, teacherPassword, teacherSurname FROM teachers");
 
             ResultSet results = ps.executeQuery();
             while (results.next()) {
@@ -35,7 +35,7 @@ public class Teachers {
                 item.put("teacherID", results.getInt(1));
                 item.put("teacherTitle", results.getString(2));
                 item.put("teacherPassword", results.getString(3));
-                item.put("teacherSurnameInitial", results.getString(4));
+                item.put("teacherSurname", results.getString(4));
                 list.add(item);
 
             }
@@ -55,7 +55,10 @@ public class Teachers {
     @Consumes(MediaType.MULTIPART_FORM_DATA)
 
 //The method has to be public in order to allow interaction with the Jersey library
-    public String insert(@FormDataParam("teacherID") Integer teacherID, @FormDataParam("teacherTitle") String teacherTitle, @FormDataParam("teacherPassword") String teacherPassword, @FormDataParam("teacherSurname") String teacherSurname) {
+    public String insert(@CookieParam("token") String token, @FormDataParam("teacherID") Integer teacherID, @FormDataParam("teacherTitle") String teacherTitle, @FormDataParam("teacherPassword") String teacherPassword, @FormDataParam("teacherSurname") String teacherSurname) {
+        if (!teacherControl.validToken(token)) {
+            return "{\"error\": \"You don't appear to be logged in.\"}";
+        }
 
         try {
 
@@ -89,7 +92,10 @@ public class Teachers {
     @Produces(MediaType.APPLICATION_JSON)
 
 //The method has to be public in order to allow interaction with the Jersey library
-    public String update(@FormDataParam("teacherTitle") String teacherTitle, @FormDataParam("teacherPassword") String teacherPassword, @FormDataParam("teacherID") Integer teacherID, @FormDataParam("teacherSurname") String teacherSurname) {
+    public String update(@CookieParam("token") String token, @FormDataParam("teacherTitle") String teacherTitle, @FormDataParam("teacherPassword") String teacherPassword, @FormDataParam("teacherID") Integer teacherID, @FormDataParam("teacherSurname") String teacherSurname) {
+        if (!teacherControl.validToken(token)) {
+            return "{\"error\": \"You don't appear to be logged in.\"}";
+        }
 
         try {
             //This stops null data from being added to the database
@@ -128,7 +134,10 @@ public class Teachers {
     @Produces(MediaType.APPLICATION_JSON)
 
 //The method has to be public in order to allow interaction with the Jersey library
-    public String delete(@FormDataParam("teacherID") Integer teacherID) {
+    public String delete(@CookieParam("token") String token, @FormDataParam("teacherID") Integer teacherID) {
+        if (!teacherControl.validToken(token)) {
+            return "{\"error\": \"You don't appear to be logged in.\"}";
+        }
 
         try {
             //This stops null data from being a delete request
@@ -154,5 +163,39 @@ public class Teachers {
 
     }
 
-}
 
+    //This turns the method into a HTTP request handler
+    @GET
+    @Path("get/{token}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+
+//The method has to be public in order to allow interaction with the Jersey library
+    public String get(@PathParam("token") Integer token) {
+
+        System.out.println("teacher/get/" + token);
+        JSONObject item = new JSONObject();
+
+        try {
+            PreparedStatement ps = Main.db.prepareStatement("SELECT teacherID FROM teachers WHERE token = ?");
+            ps.setInt(1, token);
+            ResultSet results = ps.executeQuery();
+
+            if (results.next()) {
+                // item.put("id", token);
+                item.put("teacherID", results.getString(1));
+
+            }
+            return item.toString();
+
+
+
+
+        } catch (Exception exception) {
+            System.out.println("Database error" + exception.getMessage());
+            //This error statement will make debugging easier
+            return "{\"error\": \"Unable to update item, please see server console for more info.\"}";
+        }
+
+    }
+}

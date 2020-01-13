@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>login page</title>
+    <link rel="stylesheet" type="text/css" href="/client/css/styles.css">
+    <script src="/client/js/js.cookie.js"></script>
+    <script src="/client/js/login.js"></script>
+</head>
+<body onload="pageLoad()">
+<div id="content">
+    <h1>Please log in to continue...</h1>
+    <hr />
+    <form id="loginForm">
+        <div class="loginDiv">
+            <label for="studentName">Username: </label>
+            <input type="text" name="studentName" id="studentName">
+        </div>
+        <div class="loginDiv">
+            <label for="studentPassword">Password: </label>
+            <input type="password" name="studentPassword" id="studentPassword">
+        </div>
+        <input type="radio" id="rd1" value="student">Student<br>
+        <input type="radio" id="rd2" value="teacher">Teacher<br>
+        <div class="loginDiv">
+            <input type="submit" value="Login" id="loginButton">
+        </div>
+
+        <button class="settingsHome" onclick = "window.location.href = 'index.html'" >Home</button>
+
+    </form>
+</div>
+</body>
+</html>

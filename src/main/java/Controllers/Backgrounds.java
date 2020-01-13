@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 @Path("background/")
 public class Backgrounds {
 
+
     //This turns the method into a HTTP request handler
     @GET
     @Path("list")
@@ -55,7 +56,10 @@ public class Backgrounds {
     @Produces(MediaType.APPLICATION_JSON)
 
     //The method has to be public in order to allow interaction with the Jersey library
-    public String insert(@FormDataParam("backgroundPrice") Integer backgroundPrice, @FormDataParam("backgroundImage") String backgroundImage, @FormDataParam("backgroundID") Integer backgroundID){
+    public String insert(@CookieParam("token") String token, @FormDataParam("backgroundPrice") Integer backgroundPrice, @FormDataParam("backgroundImage") String backgroundImage, @FormDataParam("backgroundID") Integer backgroundID) {
+        if (!studentControl.validToken(token)) {
+            return "{\"error\": \"You don't appear to be logged in.\"}";
+        }
 
         try {
 
@@ -87,7 +91,10 @@ public class Backgrounds {
     @Path("update")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
-    public String update(@FormDataParam("backgroundPrice") String backgroundPrice, @FormDataParam("backgroundImage") String backgroundImage, @FormDataParam("backgroundID") Integer  backgroundID) {
+    public String update(@CookieParam("token") String token, @FormDataParam("backgroundPrice") String backgroundPrice, @FormDataParam("backgroundImage") String backgroundImage, @FormDataParam("backgroundID") Integer backgroundID) {
+        if (!studentControl.validToken(token)) {
+            return "{\"error\": \"You don't appear to be logged in.\"}";
+        }
 
         try {
             if (backgroundPrice == null || backgroundImage == null || backgroundID == null) {
@@ -119,7 +126,10 @@ public class Backgrounds {
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
 
-    public String delete(@FormDataParam("backgroundID") Integer backgroundID) {
+    public String delete(@CookieParam("token") String token, @FormDataParam("backgroundID") Integer backgroundID) {
+        if (!studentControl.validToken(token)) {
+            return "{\"error\": \"You don't appear to be logged in.\"}";
+        }
 
         try {
             if (backgroundID == null) {
@@ -141,4 +151,40 @@ public class Backgrounds {
         }
 
     }
+
+    //This turns the method into a HTTP request handler
+    @GET
+    @Path("get/{backgroundID}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+
+//The method has to be public in order to allow interaction with the Jersey library
+    public String get(@PathParam("backgroundID") Integer backgroundID) {
+
+        System.out.println("teacher/get/" + backgroundID);
+        JSONObject item = new JSONObject();
+
+        try {
+            PreparedStatement ps = Main.db.prepareStatement("SELECT backgroundID FROM backgrounds WHERE backgroundID = ?");
+            ps.setInt(1, backgroundID);
+            ResultSet results = ps.executeQuery();
+
+            if (results.next()) {
+                // item.put("id", token);
+                item.put("backgroundID", results.getString(1));
+
+            }
+            return item.toString();
+
+
+
+
+        } catch (Exception exception) {
+            System.out.println("Database error" + exception.getMessage());
+            //This error statement will make debugging easier
+            return "{\"error\": \"Unable to update item, please see server console for more info.\"}";
+        }
+
+    }
+
 }

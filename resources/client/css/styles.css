@@ -1,39 +1,65 @@
 
 #header {
-    background-color: cornflowerblue;
-    width: 2000px;
+    background-color: lightskyblue;
+    width: 100%;
+    height: 10%;
     margin: 0 auto;
 
-    padding: 35px;
+    padding: 10px;
 }
+
+
 
 
 .button{
-    border: none;
-    color: white;
-    padding: 120px;
+    min-width: 100px;
+    max-width:250px;
+    text-decoration: none;
+    display: inline-block;
+    outline: none;
+    cursor: pointer;
+    border-style: none;
+    border-radius: 100%;
     text-align: center;
-    font-size: 25px;
-    border-radius: 60%;
+    padding:0;
 }
 
+.button:before {
+    content:'';
+    display:inline-block;;
+    vertical-align:middle;
+    padding-top:100%;
+}
+span {
+    display:inline-block;
+    vertical-align:middle;
+    max-width:90%;
+}
 
 
 .settings {
     background-color: #f6b7f7;
-    position:absolute; right:1000px; top:200px;
+    position: fixed;
+    left:50%;
+    top: 55%;
 }
 .button2{
     background-color: #99fa5f;
-    position:absolute; right:1000px; top: 500px;
+    position: fixed;
+    left:41%;
+    top: 85%;
 }
-.button3{
+.leaderboard{
     background-color: #b4f7fa;
-    position:absolute; right:500px; top:350px;
+    position: fixed;
+    left:20%;
+    top: 75%;
 }
-.button4{
+.store{
     background-color: #a4d7aa;
-    position:absolute; right:500px; top:650px;
+    position: fixed;
+    left:80%;
+    top: 55%;
 }
 
 #logIn {
@@ -52,3 +78,41 @@
     background-color: #f6b7f7;
     position:absolute; top: 10px; right: 80px;
 }
+
+.leaderboardHome {
+    background-color: #b4f7fa;
+    position:absolute; top: 10px; right: 80px;
+}
+
+.storeHome {
+    background-color: #a4d7aa;
+    position:absolute; top: 10px; right: 80px;
+}
+
+#indexpage{
+    background-image : url('castle.jpg');
+    background-repeat : no-repeat;
+    background-size : 100% 700px;
+    background-position: 50% -50%;
+}
+
+#leaderboardpage {
+    background-image: url('scroll.jpg');
+    background-repeat: no-repeat;
+    background-size: 100% 1000px;
+    background-position: 50% -10%;
+}
+
+#leaderboardDiv{
+    position: fixed;
+    left:30%;
+    top: 30%;
+}
+
+#storepage {
+    background-image: url('table.jpg');
+    background-repeat: no-repeat;
+    background-size: 100% 500px;
+    background-position: 50% -150%;
+}
+

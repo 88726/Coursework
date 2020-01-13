@@ -53,7 +53,7 @@ public class Parents {
     @Consumes(MediaType.MULTIPART_FORM_DATA)
 
 //The method has to be public in order to allow interaction with the Jersey library
-    public String insert(@FormDataParam("parentID") Integer parentID, @FormDataParam("parentName")String parentName, @FormDataParam("parentPassword") String parentPassword) {
+    public String insert(@CookieParam("token") String token, @FormDataParam("parentID") Integer parentID, @FormDataParam("parentName")String parentName, @FormDataParam("parentPassword") String parentPassword) {
 
         try {
             //This stops null data from being added to the database
@@ -86,7 +86,7 @@ public class Parents {
     @Produces(MediaType.APPLICATION_JSON)
 
 //The method has to be public in order to allow interaction with the Jersey library
-    public String update(@FormDataParam("parentName")String parentName, @FormDataParam("parentPassword")String parentPassword, @FormDataParam("parentID") Integer parentID) {
+    public String update(@CookieParam("token") String token, @FormDataParam("parentName")String parentName, @FormDataParam("parentPassword")String parentPassword, @FormDataParam("parentID") Integer parentID) {
 
         try {
 
@@ -121,7 +121,10 @@ public class Parents {
     @Produces(MediaType.APPLICATION_JSON)
 
 //The method has to be public in order to allow interaction with the Jersey library
-    public String delete(@FormDataParam("parentID") Integer parentID) {
+    public String delete(@CookieParam("token") String token, @FormDataParam("parentID") Integer parentID) {
+        if (!studentControl.validToken(token)) {
+            return "{\"error\": \"You don't appear to be logged in.\"}";
+        }
 
         try {
             //This stops null data from being a delete request

@@ -1,50 +1,52 @@
 
 function pageLoad() {
 
-    let teachersHTML = `<table style="width:100%"> ` +
+    let studentsHTML = `<table style="width:100%"> ` +
         `<tr>` +
         `<th>Id</th>` +
-        `<th>Title</th>` +
-        `<th>Surname</th>` +
+        `<th>Name</th>` +
+        `<th>Surname Initial</th>` +
         `<th>Password</th>` +
+        `<th>Parent ID</th>` +
         `<th class="last">Options</th>` +
         `</tr>`;
 
-    fetch('/teacher/list', {method: 'get'}
+    fetch('/student/list', {method: 'get'}
     ).then(response => response.json()
-    ).then(teachers => {
+    ).then(students => {
 
-        /// *** show the user's info at top separately
-        for (let teacher of teachers) {
-            teachersHTML += `<tr>` +
-                `<td align = "center">${teacher.teacherID}</td>` +
-                `<td align = "center">${teacher.teacherTitle}</td>` +
-                `<td align = "center">${teacher.teacherSurnameInitial}</td>` +
-                `<td align = "center">${teacher.teacherPassword}</td>` +
+        /// *** show the user's info at top separately************
+        for (let student of students) {
+            studentsHTML += `<tr>` +
+                `<td align = "center">${student.studentID}</td>` +
+                `<td align = "center">${student.studentName}</td>` +
+                `<td align = "center">${student.studentSurnameInitial}</td>` +
+                `<td align = "center">${student.studentPassword}</td>` +
+                `<td align = "center">${student.parentID}</td>` +
                 `<td align = "center" class="last">` +
-                `<button class='editButton' data-id='${teacher.teacherID}'>Edit</button>` +
-                `<button class='deleteButton' data-id='${teacher.teacherID}'>Delete</button>` +
+                `<button class='editButton' data-id='${student.studentID}'>Edit</button>` +
+                `<button class='deleteButton' data-id='${student.studentID}'>Delete</button>` +
                 `</td>` +
                 `</tr>`;
 
 
         }
-        teachersHTML += `</table>`;
+        studentsHTML += `</table>`;
 
 
-        document.getElementById("listDiv").innerHTML = teachersHTML;
+        document.getElementById("listDiv").innerHTML = studentsHTML;
 
 
 
         let editButtons = document.getElementsByClassName("editButton");
         for (let button of editButtons) {
-            button.addEventListener("click", editTeacher);
+            button.addEventListener("click", editstudent);
 
         }
 
         let deleteButtons = document.getElementsByClassName("deleteButton");
         for (let button of deleteButtons) {
-            button.addEventListener("click", deleteTeacher);
+            button.addEventListener("click", deletestudent);
         }
     });
 
@@ -55,42 +57,42 @@ function pageLoad() {
 
 
 
-  //  document.getElementById("saveButton").addEventListener("click", saveEditTeacher);
-   // document.getElementById("cancelButton").addEventListener("click", cancelEditTeacher)
+  //  document.getElementById("saveButton").addEventListener("click", saveEditstudent);
+   // document.getElementById("cancelButton").addEventListener("click", cancelEditstudent)
 }
 
 
-function editTeacher(event) {
+function editstudent(event) {
 alert("hi")
-    const id = event.target.getAttribute("teacher.teacherID");
+    const id = event.target.getAttribute("student.studentID");
 
     if (id === null) {
         alert("hi3")
-        document.getElementById("editHeading").innerHTML = 'Add new Teacher:';
+        document.getElementById("editHeading").innerHTML = 'Add new student:';
 
-        document.getElementById("teacherID").value = '';
-        document.getElementById("teacherTitle").value = '';
-        document.getElementById("teacherSurname").value = '';
-        document.getElementById("teacherPassword").value = '';
+        document.getElementById("studentID").value = '';
+        document.getElementById("studentTitle").value = '';
+        document.getElementById("studentSurnameInitial").value = '';
+        document.getElementById("studentPassword").value = '';
 
         document.getElementById("listDiv").style.display = 'none';
         document.getElementById("editDiv").style.display = 'block';
 
     } else {
-        fetch('/teacher/list/' + id, {method: 'get'}
+        fetch('/student/list/' + id, {method: 'get'}
         ).then(response => response.json()
-        ).then(teacher => {
+        ).then(student => {
 alert("hi2")
-            if (teacher.hasOwnProperty('error')) {
-                alert(teacher.error);
+            if (student.hasOwnProperty('error')) {
+                alert(student.error);
             } else {
 
-                document.getElementById("editHeading").innerHTML = 'Editing ' + teacher.name + ':';
+                document.getElementById("editHeading").innerHTML = 'Editing ' + student.name + ':';
 
-                document.getElementById("teacherID").value = teacher.id;
-                document.getElementById("teacherTitle").value = teacher.Title;
-                document.getElementById("teacherSurname").value = teacher.Surname;
-                document.getElementById("teacherPassword").value = teacher.Password;
+                document.getElementById("studentID").value = student.id;
+                document.getElementById("studentTitle").value = student.Title;
+                document.getElementById("studentSurname").value = student.Surname;
+                document.getElementById("studentPassword").value = student.Password;
 
                 document.getElementById("listDiv").style.display = 'none';
                 document.getElementById("editDiv").style.display = 'block';
@@ -99,38 +101,38 @@ alert("hi2")
         });
     }
 }
-function saveEditTeacher(event) {
+function saveEditstudent(event) {
 
     event.preventDefault();
 
-    if (document.getElementById("teacherID").value.trim() === '') {
-        alert("Please provide a teacher id.");
+    if (document.getElementById("studentID").value.trim() === '') {
+        alert("Please provide a student id.");
         return;
     }
 
-    if (document.getElementById("teacherTitle").value.trim() === '') {
-        alert("Please provide a teacher title.");
+    if (document.getElementById("studentTitle").value.trim() === '') {
+        alert("Please provide a student title.");
         return;
     }
 
-    if (document.getElementById("teacherSurname").value.trim() === '') {
-        alert("Please provide a teacher surname.");
+    if (document.getElementById("studentSurname").value.trim() === '') {
+        alert("Please provide a student surname.");
         return;
     }
 
-    if (document.getElementById("teacherPassword").value.trim() === '') {
-        alert("Please provide a teacher password.");
+    if (document.getElementById("studentPassword").value.trim() === '') {
+        alert("Please provide a student password.");
         return;
     }
-    const id = document.getElementById("teacherId").value;
-    const form = document.getElementById("teacherForm");
+    const id = document.getElementById("studentId").value;
+    const form = document.getElementById("studentForm");
     const formData = new FormData(form);
 
     let apiPath = '';
     if (id === '') {
-        apiPath = '/teacher/add';
+        apiPath = '/student/add';
     } else {
-        apiPath = '/teacher/update';
+        apiPath = '/student/update';
     }
 
     fetch(apiPath, {method: 'post', body: formData}
@@ -146,7 +148,7 @@ function saveEditTeacher(event) {
         }
     });
 }
-function cancelEditTeacher(event) {
+function cancelEditstudent(event) {
 
     event.preventDefault();
 
@@ -154,7 +156,7 @@ function cancelEditTeacher(event) {
     document.getElementById("editDiv").style.display = 'none';
 
 }
-function deleteTeacher(event) {
+function deletestudent(event) {
 
     const ok = confirm("Are you sure?");
 
@@ -164,7 +166,7 @@ function deleteTeacher(event) {
         let formData = new FormData();
         formData.append("id", id);
 
-        fetch('/teacher/delete', {method: 'post', body: formData}
+        fetch('/student/delete', {method: 'post', body: formData}
         ).then(response => response.json()
         ).then(responseData => {
 

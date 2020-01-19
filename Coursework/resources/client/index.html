@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>The Castle</title>
+    <link  rel="stylesheet" href="css/styles.css">
+    <script src="/client/js/index.js"></script>
+
+
+</head>
+<body id="indexpage" onload="pageLoad()">
+
+<div id="header">
+    <h1>The Castle</h1>
+
+    <button id="logIn" onclick = "window.location.href = 'login.html'">LOG IN</button>
+    <button id="logOut" onclick = "logout()">LOG OUT</button>
+    <div id="loggedInDetails"></div>
+
+</div>
+
+    <div id="loggedInTeacher">
+
+    <button class="button settings" onclick = "window.location.href = 'settings.html'" >Settings</button>
+    <button class="button leaderboard" onclick = "window.location.href = 'leaderboard.html'">Leaderboard </button>
+
+    </div>
+    <div id="loggedInStudent">
+    <button class="button learn" onclick = "window.location.href = 'learn.html'"> Learn </button>
+    <button class="button store" onclick = "window.location.href = 'store.html'"> Store </button>
+
+    </div>
+
+
+
+
+</body>
+</html>
